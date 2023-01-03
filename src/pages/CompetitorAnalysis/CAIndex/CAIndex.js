@@ -127,7 +127,6 @@ const CAIndex = () => {
     );
     const res = await response.json();
     setPeerReportID(res.report_id);
-    // setLoading3(false);
     console.log("Final", res);
   };
 

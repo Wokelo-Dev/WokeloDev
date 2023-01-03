@@ -19,6 +19,7 @@ import Market_Snapshot_Final from "./pages/MarketSnapshot/Market_Snapshot_Final/
 import Peer_Analysis_Download from "./pages/CompetitorAnalysis/Peer_Analysis_Download/Peer_Analysis_Download";
 import Market_Snapshot_Download from "./pages/MarketSnapshot/Market_Snapshot_Download/Market_Snapshot_Download";
 import Recent_Strategy_Index from "./pages/RecentStrategy/Recent_Strategy_Index/Recent_Strategy_Index";
+import Recent_Strategy_Download from "./pages/RecentStrategy/Recent_Strategy_Download/Recent_Strategy_Download";
 
 
 
@@ -98,6 +99,14 @@ function App() {
           element={
             <PrivateRoute>
               <Recent_Strategy_Index/>
+             </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="/recent_strategy_download"
+          element={
+            <PrivateRoute>
+              <Recent_Strategy_Download/>
              </PrivateRoute>
           }
         ></Route>

@@ -7,20 +7,18 @@ import { AuthContext } from "../../../context/AuthContext";
 import { ColorRing } from "react-loader-spinner";
 const Peer_Analysis_Download = () => {
   const { username } = useContext(AuthContext);
-  const [emailID, setEmailID] = useState('')
-  const [dateGenerated, setDateGenerated] = useState('');
-  const [companiesTotal, setCompaniesTotal] = useState('');
-  const [wordProcessed, setWordProcessed] = useState('');
-  const [sourcesReffered, setSourcesReferred] = useState('');
+  const [emailID, setEmailID] = useState("");
+  const [dateGenerated, setDateGenerated] = useState("");
+  const [companiesTotal, setCompaniesTotal] = useState("");
+  const [wordProcessed, setWordProcessed] = useState("");
+  const [sourcesReffered, setSourcesReferred] = useState("");
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState(null);
   let { authTokens, peerReportID, sector } = useContext(AuthContext);
   console.log("on download page", peerReportID);
 
-
-
-  useEffect(() =>{
-    const downloadDetail = async () =>{
+  useEffect(() => {
+    const downloadDetail = async () => {
       let response = await fetch(
         "https://wokelo-dev.eastus.cloudapp.azure.com/api/peer_analysis/download_info/",
         {
@@ -30,26 +28,26 @@ const Peer_Analysis_Download = () => {
             Authorization: "Bearer " + String(authTokens.access),
           },
           body: JSON.stringify({
-            report_id: peerReportID
+            report_id: peerReportID,
           }),
         }
       );
       const res = await response.json();
       setCompaniesTotal(res.info.companies_total);
-      setWordProcessed(res.info.words_processed)
-      setSourcesReferred(res.info.sources_referred)
-      setEmailID(res.info.username)
-      setDateGenerated(res.info.date_generated)
-      console.log(companiesTotal)
-    }
-    downloadDetail()
-  })
+      setWordProcessed(res.info.words_processed);
+      setSourcesReferred(res.info.sources_referred);
+      setEmailID(res.info.username);
+      setDateGenerated(res.info.date_generated);
+      console.log(companiesTotal);
+    };
+    downloadDetail();
+  });
 
   const handleDownload = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://wokelo-dev.eastus.cloudapp.azure.com/api/peer_analysis/download/",
+        "https://wokelo-dev.eastus.cloudapp.azure.com/api/peer_analysis/download_doc/",
         {
           method: "POST",
           headers: {
@@ -153,12 +151,9 @@ const Peer_Analysis_Download = () => {
             }}
           >
             - Total companies scanned: {companiesTotal}
+            <br />- Total words processed: {wordProcessed}
+            <br />- Sources Referred: {sourcesReffered}
             <br />
-            - Total words processed: {wordProcessed}
-            <br />
-            - Sources Referred: {sourcesReffered}
-            <br />
-           
           </p>
           <span
             style={{

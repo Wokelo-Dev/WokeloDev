@@ -107,7 +107,6 @@ const Dashboard = () => {
                             width: "17vw",
                             minHeight: "225px",
                           }}
-                           
                         >
                           <h5
                             className={styles.item_h5}
@@ -151,7 +150,6 @@ const Dashboard = () => {
                             width: "17vw",
                             minHeight: "225px",
                           }}
-                           
                         >
                           <h5 className={styles.item_h5}>
                             <span className={styles.item_span}>
@@ -189,7 +187,6 @@ const Dashboard = () => {
                             width: "17vw",
                             minHeight: "225px",
                           }}
-                           
                         >
                           <h5 className={styles.item_h5}>
                             <span className={styles.item_span}>
@@ -258,7 +255,6 @@ const Dashboard = () => {
                             width: "17vw",
                             minHeight: "225px",
                           }}
-                           
                         >
                           <h5
                             className={styles.item_h5}
@@ -290,7 +286,7 @@ const Dashboard = () => {
                           style={{
                             textDecoration: "none",
                             color: "black",
-                            background: "#f9f8f8",
+                            backgroundColor: "rgba(240, 236, 255, 0.7)",
                             border: "0.25px solid #e9e9e9;",
                             boxShadow: "0px 4px 4px rgba(154, 154, 154, 0.25)",
                             borderRadius: "15px",
@@ -302,10 +298,15 @@ const Dashboard = () => {
                             width: "17vw",
                             minHeight: "225px",
                           }}
-                           
                         >
-                          <h5 className={styles.item_h5}>
-                            <span className={styles.item_span}>
+                          <h5
+                            className={styles.item_h5}
+                            style={{ backgroundColor: "#FCFBFF" }}
+                          >
+                            <span
+                              className={styles.item_span}
+                              style={{ backgroundColor: "#000000" }}
+                            >
                               <img
                                 src="https://wokelo.ai/statichtml/images/icons/activity.svg"
                                 alt=""
@@ -340,7 +341,6 @@ const Dashboard = () => {
                             width: "17vw",
                             minHeight: "225px",
                           }}
-                           
                         >
                           <h5 className={styles.item_h5}>
                             <span className={styles.item_span}>
@@ -411,7 +411,6 @@ const Dashboard = () => {
                             width: "17vw",
                             minHeight: "225px",
                           }}
-                           
                         >
                           <h5 className={styles.item_h5}>
                             <span className={styles.item_span}>
@@ -449,7 +448,6 @@ const Dashboard = () => {
                             width: "17vw",
                             minHeight: "225px",
                           }}
-                           
                         >
                           <h5 className={styles.item_h5}>
                             <span className={styles.item_span}>
@@ -487,7 +485,6 @@ const Dashboard = () => {
                             width: "17vw",
                             minHeight: "225px",
                           }}
-                           
                         >
                           <h5 className={styles.item_h5}>
                             <span className={styles.item_span}>

@@ -74,7 +74,7 @@ const Market_Snapshot_Final = () => {
 
  const generateMarketSnapshot = async () =>{
   const resp = await fetch(
-    "https://wokelo-dev.eastus.cloudapp.azure.com/api/market_snapshot/generate_market_snapshot/",
+    "https://wokelo-dev.eastus.cloudapp.azure.com/api/market_snapshot/generate/",
     {
       method: "POST",
       headers: {

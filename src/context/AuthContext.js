@@ -12,13 +12,17 @@ const AuthProvider = ({ children }) => {
   const [otherAttributes, setOtherAttributes] = useState([]);
   const [selectedAttributes, setSelectedAttributes] = useState([]);
   const [listArray, setListArray] = useState([]);
-  const [resMsg, setResMsg] = useState(true);
   const [reportID, setReportID] = useState("");
   const [peerReportID, setPeerReportID] = useState("");
-  const [finalReportID, setFinalReportID] = useState("");
-  const [statusMessage, setStatusMessage] = useState('');
-  const [globalEmailID, setGlobalEmailID] = useState('');
+  const [statusMessage, setStatusMessage] = useState("");
+  const [globalEmailID, setGlobalEmailID] = useState("");
   const [loadingAttributes, setLoadingAttributes] = useState(false);
+  const [recentStrategyReportID, setRecentStrategyReportID] = useState("");
+
+  const navigate = useNavigate();
+
+  //       <---------- Login User Flow  Starts ------------>
+
   const [authTokens, setAuthTokens] = useState(() =>
     localStorage.getItem("authTokens")
       ? JSON.parse(localStorage.getItem("authTokens"))
@@ -29,8 +33,8 @@ const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("authTokens"))
       : null
   );
-  const navigate = useNavigate();
 
+  // Logging User In
   const loginUser = async (e) => {
     e.preventDefault();
     console.log("form code");
@@ -60,6 +64,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // Updating JWT Token
   const updateToken = async () => {
     console.log("Update func called");
     const response = await fetch(
@@ -86,6 +91,7 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // Logging out User
   const logoutUser = () => {
     setAuthTokens(null);
     setUser(null);
@@ -106,104 +112,7 @@ const AuthProvider = ({ children }) => {
     return () => clearInterval(interval);
   }, [authTokens, loading]);
 
-  const handleMSResearch = (e) => {
-    setMarketSnapshotResearch(e.target.value);
-    // setSelectedAttributes([]);
-    
-    // console.log(marketSnapshotResearch)
-  };
-
-  const ClassifyQuery = async () => {
-    setLoadingAttributes(true);
-    setRecommnededAttributes([]);
-    setOtherAttributes([]);
-    setSelectedAttributes([]);
-    
-    const resp = await fetch(
-      `https://wokelo-dev.eastus.cloudapp.azure.com/api/market_snapshot/classify/?query=${marketSnapshotResearch}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(authTokens.access),
-        },
-      }
-    );
-    const res = await resp.json();
-    setRecommnededAttributes(res.recommended_attributes);
-    setOtherAttributes(res.other_attributes);
-    setLoadingAttributes(false);
-  };
-
-  const ProcessMarketSnapshot = async () => {
-    setReportID('')
-    const resp = await fetch(
-      "https://wokelo-dev.eastus.cloudapp.azure.com/api/market_snapshot/process_market_snapshot/",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(authTokens.access),
-        },
-        body: JSON.stringify({
-          search_query: marketSnapshotResearch,
-          attributes: selectedAttributes,
-          sources: ["wokelo"],
-        }),
-      }
-    );
-
-    const res = await resp.json();
-    console.log(res.report_id);
-
-    // if(res.report_id)
-    // setReportID(res)
-    // setInterval
-    
-    setReportID(res.report_id);
-    // setTaskID(res.task_id)
-    // console.log(reportID);
-    
-
-    // console.log(taskID)
-  };
-
- const checkStatus = async () =>{
-  setStatusMessage('')
-  const resp = await fetch(
-    `https://wokelo-dev.eastus.cloudapp.azure.com/api/assets/get_report_status/?report_id=${reportID}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + String(authTokens.access),
-      },
-    }
-  );
-  const res = await resp.json();
-  setStatusMessage(res.status)
-  console.log(res.status)
- }
-
-  const getShortlist = async () => {
-    setListArray([])
-    const resp = await fetch(
-      `https://wokelo-dev.eastus.cloudapp.azure.com/api/market_snapshot/get_shortlist/?report_id=${reportID}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + String(authTokens.access),
-        },
-      }
-    );
-    const res = await resp.json();
-    if (res.message) setResMsg(true);
-    else setResMsg(false);
-    setListArray(res.data);
-    console.log("Shorlist", res);
-  };
-
+  // Retrieving name of user from logged in data
   const getName = async () => {
     let response = await fetch(
       "https://wokelo-dev.eastus.cloudapp.azure.com/api/accounts/user_detail",
@@ -226,38 +135,136 @@ const AuthProvider = ({ children }) => {
 
   getName();
 
+  //  <--------- Login User Flow Ends ------------>
+
+  //  <----------      Market Snapshot Flow ---------->
+
+  // Stores research topic
+  const handleMSResearch = (e) => {
+    setMarketSnapshotResearch(e.target.value);
+  };
+
+  // Loads attributes for research topic
+  const ClassifyQuery = async () => {
+    setLoadingAttributes(true);
+    setRecommnededAttributes([]);
+    setOtherAttributes([]);
+    setSelectedAttributes([]);
+
+    const resp = await fetch(
+      `https://wokelo-dev.eastus.cloudapp.azure.com/api/market_snapshot/classify/?query=${marketSnapshotResearch}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      }
+    );
+    const res = await resp.json();
+    setRecommnededAttributes(res.recommended_attributes);
+    setOtherAttributes(res.other_attributes);
+    setLoadingAttributes(false);
+  };
+
+  // Process market snapshot and provides relevant topics
+  const ProcessMarketSnapshot = async () => {
+    setReportID("");
+    const resp = await fetch(
+      "https://wokelo-dev.eastus.cloudapp.azure.com/api/market_snapshot/process/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+        body: JSON.stringify({
+          search_query: marketSnapshotResearch,
+          attributes: selectedAttributes,
+          sources: ["wokelo"],
+        }),
+      }
+    );
+
+    const res = await resp.json();
+    console.log(res.report_id);
+    setReportID(res.report_id);
+  };
+
+  // Checks task status
+  const checkStatus = async () => {
+    setStatusMessage("");
+    const resp = await fetch(
+      `https://wokelo-dev.eastus.cloudapp.azure.com/api/assets/get_report_status/?report_id=${reportID}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      }
+    );
+    const res = await resp.json();
+    setStatusMessage(res.status);
+    console.log(res.status);
+  };
+
+  // Fetches the list of relevant topics
+  const getShortlist = async () => {
+    setListArray([]);
+    const resp = await fetch(
+      `https://wokelo-dev.eastus.cloudapp.azure.com/api/market_snapshot/shortlist/?report_id=${reportID}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      }
+    );
+    const res = await resp.json();
+    setListArray(res.data);
+    console.log("Shorlist", res);
+  };
+
   let contextData = {
+    // Logging In Data
     user: user,
     authTokens: authTokens,
     loginUser: loginUser,
     logoutUser: logoutUser,
+    username: username,
+    globalEmailID: globalEmailID,
+
+    // Market Snapshot Data
     marketSnapshotResearch: marketSnapshotResearch,
     handleMSResearch: handleMSResearch,
     ClassifyQuery: ClassifyQuery,
     recommendedAttributes: recommendedAttributes,
-    setRecommnededAttributes:setRecommnededAttributes,
+    setRecommnededAttributes: setRecommnededAttributes,
     otherAttributes: otherAttributes,
-    setOtherAttributes:setOtherAttributes,
+    setOtherAttributes: setOtherAttributes,
     selectedAttributes: selectedAttributes,
     setSelectedAttributes: setSelectedAttributes,
     ProcessMarketSnapshot: ProcessMarketSnapshot,
     getShortlist: getShortlist,
-    username: username,
     reportID: reportID,
     listArray: listArray,
-    resMsg: resMsg,
     setReportID: setReportID,
-    finalReportID: finalReportID,
-    setFinalReportID: setFinalReportID,
+    checkStatus: checkStatus,
+    statusMessage: statusMessage,
+    setStatusMessage: setStatusMessage,
+
+    // Peer Analysis Data
     peerReportID: peerReportID,
     setPeerReportID: setPeerReportID,
     sector: sector,
     setSector: setSector,
-    checkStatus:checkStatus,
-    statusMessage:statusMessage,
-    setStatusMessage: setStatusMessage,
-    globalEmailID:globalEmailID,
-    loadingAttributes:loadingAttributes
+    loadingAttributes: loadingAttributes,
+
+    // Recent Strategy Data
+    recentStrategyReportID: recentStrategyReportID,
+    setRecentStrategyReportID: setRecentStrategyReportID,
   };
 
   return (

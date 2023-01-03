@@ -176,9 +176,9 @@ h2 {
   margin-top: 0;
   /* align-items: center; */
 }
-.disabled{
+.disabled {
   margin-top: 5vh;
-    font-family: 'Raleway';
+  font-family: "Raleway";
   display: inline-block;
   padding: 11px 35px;
   border-radius: 8px;
@@ -296,26 +296,26 @@ h2 {
   background: rgba(88, 59, 232, 0.9);
   border-radius: 60px;
 }
- .gifs {
-      display: flex;
-      flex-direction: row;
-      float: left;
-      width: 100%;
-    }
-    .gif1>img {
-      width: 100%;
-      height: auto;
-    }
+.gifs {
+  display: flex;
+  flex-direction: row;
+  float: left;
+  width: 100%;
+}
+.gif1 > img {
+  width: 100%;
+  height: auto;
+}
 
-    .gif2>img {
-      width: 100%;
-      height: auto;
-    }
+.gif2 > img {
+  width: 100%;
+  height: auto;
+}
 
-    .gif3>img {
-      width: 100%;
-      height: auto;
-    }
+.gif3 > img {
+  width: 100%;
+  height: auto;
+}
 
 .suggestions {
   display: flex;
@@ -339,8 +339,8 @@ h2 {
   text-overflow: ellipsis;
 }
 .btn_primary_gradient {
-    margin-top: 5vh;
-    font-family: 'Raleway';
+  margin-top: 5vh;
+  font-family: "Raleway";
   display: inline-block;
   padding: 11px 35px;
   border-radius: 8px;
