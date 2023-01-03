@@ -1,0 +1,286 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100%;
+  /* overflow: hidden; */
+}
+
+.under_img {
+  position: relative;
+  width: 178.92px;
+  height: 10.89px;
+  background: transparent;
+}
+
+.username {
+  position: relative;
+  margin-top: 22px;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 10px;
+  padding: 5px;
+  color: #5e6269;
+}
+
+input {
+  box-sizing: border-box;
+  margin-top: 5px;
+  position: relative;
+  width: 100%;
+  color: black;
+  height: 5vh;
+  padding: 5px;
+  font-family: "Raleway";
+  font-size: 15px;
+  background: transparent;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+.inp_p {
+  width: 100%;
+  display: flex;
+  margin-top: 2em;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.password {
+  position: relative;
+  width: auto;
+
+  margin-top: 20px;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 10px;
+  color: #5e6269;
+}
+
+.form_footer {
+  display: flex;
+  justify-content: center;
+}
+
+.form_footer > p {
+  position: relative;
+  color: black;
+  margin-top: 5px;
+  margin-bottom: 2px;
+  font-family: "Raleway";
+}
+
+.submit {
+  /* position: relative; */
+  width: 120px;
+  height: 45x;
+  /* float: right; */
+  background: #6a67ef;
+  color: white;
+  padding-left: 5px;
+  font-weight: 550;
+  font-size: 17px;
+  margin: 5px;
+  font-family: "Raleway";
+  font-style: normal;
+}
+
+.inp_2 {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  height: 5vh;
+  padding: 5px;
+  margin-top: 5px;
+  color: black;
+  background: transparent;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+.container {
+  /* min-width: 960px; */
+  margin: 30px auto;
+}
+
+.container .content {
+  position: relative;
+}
+
+.container .content .info {
+  /* border: 2px solid red; */
+  position: relative;
+  top: 0;
+  height: 30em;
+  left: 100px;
+  width: 30em;
+
+  background: #ffffff;
+  box-shadow: 0px 4px 10px rgb(68 114 196 / 30%);
+  border-radius: 30px;
+  max-width: 50%;
+  float: left;
+  /* text-align: justify; */
+}
+
+.p_login {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 11px;
+  font-size: 18px;
+  line-height: 18px;
+  color: rgb(51, 51, 51);
+}
+
+/* .wrapper .right{
+  background: black;
+} */
+.left {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.left {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hello {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 50px;
+  width: 100%;
+  line-height: 87.57%;
+  /* or 66px */
+  margin-top: 2px;
+
+  color: #2a2a2a;
+}
+
+.welcome {
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  width: 100%;
+  font-size: 50px;
+  line-height: 70px;
+  color: #2a2a2a;
+}
+
+.form_footer > p > a {
+  text-decoration: none;
+}
+
+.form_container {
+  padding: 35px;
+  position: relative;
+  width: 78%;
+  height: auto;
+  color: #ffffff;
+  box-shadow: 0px 4px 10px rgba(68, 114, 196, 0.3);
+  border-radius: 30px;
+}
+
+.right > img {
+  width: 70%;
+
+  /* margin-top: 1.2em; */
+  /* padding-top: 30px; */
+  height: auto;
+  /* max-height: 100%; */
+}
+.name_head {
+  display: flex;
+  font-family: "Raleway";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 47px;
+  text-align: center;
+  padding: 7px;
+  color: #000000;
+}
+
+@media screen and (max-width: 1200px) {
+  .main .right > img {
+    margin-top: 3.5em;
+  }
+
+  .form_footer > p {
+    margin-top: 1em;
+  }
+   
+  .left{
+    width: 80%;
+  }
+  
+}
+
+@media screen and (max-width: 768px){
+.left{
+    width: 95%;
+  }
+  .right{
+    display: none;
+  }
+  .hello{
+    font-size: 40px;
+  }
+  .welcome{
+    font-size: 40px;
+  }
+  .p_login{
+    font-size: 20px;
+  }
+  .username{
+    font-size: 18px;
+  }
+  .password{
+    font-size: 18px;
+  }
+  .form_footer{
+    font-size: 15px;
+  }
+  .submit{
+    font-size: 15px;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .form_footer > p {
+    margin-top: 3em;
+  }
+ 
+}

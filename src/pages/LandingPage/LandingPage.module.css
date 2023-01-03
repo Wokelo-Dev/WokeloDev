@@ -1,0 +1,87 @@
+.b1_wrapper {
+  /* display: flex; */
+
+  /* width: 706px; */
+  /* height: 98px; */
+  margin-top: 80px;
+  /* margin-left: 607px; */
+  /* margin-right: 500px; */
+  margin-bottom: 0;
+}
+.banner_1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Raleway;
+  font-weight: 700;
+  font-size: 69px;
+  line-height: 42px;
+  /* 120px  */
+  /* line-height: 105.08px;  */
+}
+.banner_2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Raleway;
+  font-weight: 700;
+  font-size: 60px;
+
+  color: #583be8;
+}
+.img_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.intro_text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Raleway;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 23.48px;
+}
+.land_img1 {
+  background: transparent;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 35rem;
+  height: 50vh;
+  /* left: 454px; */
+  /* top: 355px; */
+}
+.land_btn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 194px;
+  height: 56px;
+  /* left: 679px; */
+  margin-top: 2rem;
+  z-index: 3;
+  font-family: Raleway;
+  font-size: 18px;
+  font-weight: 600;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.25))
+    drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border-radius: 7px;
+  border: 1px solid #fdfafa;
+  border-color: rgba(253, 250, 250, 1);
+  background-color: #583be8;
+  color: white;
+}
+.land_btn_a {
+  text-decoration: none;
+  color: white;
+}
+
+.land_btn_a:hover{
+  color: white;
+}
