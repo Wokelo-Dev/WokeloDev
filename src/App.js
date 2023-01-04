@@ -21,6 +21,7 @@ import Market_Snapshot_Download from "./pages/MarketSnapshot/Market_Snapshot_Dow
 import Recent_Strategy_Index from "./pages/RecentStrategy/Recent_Strategy_Index/Recent_Strategy_Index";
 import Recent_Strategy_Download from "./pages/RecentStrategy/Recent_Strategy_Download/Recent_Strategy_Download";
 import Report_Index from "./pages/Reports/Report_Index";
+import Recent_Strategy_Failed from "./pages/RecentStrategy/Recent_Strategy_Failed/Recent_Strategy_Failed";
 
 
 
@@ -108,6 +109,14 @@ function App() {
           element={
             <PrivateRoute>
               <Recent_Strategy_Download/>
+             </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="/recent_strategy_failed"
+          element={
+            <PrivateRoute>
+              <Recent_Strategy_Failed/>
              </PrivateRoute>
           }
         ></Route>

@@ -11,7 +11,11 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 const Recent_Strategy_Index = () => {
   const navigate = useNavigate();
-  const strategic_moves = [{key:"Acquisitions", value:"acquisition"}, {key:"Investments", value:"investment"}, {key:"Partnerships", value:"partnership"}];
+  const strategic_moves = [
+    { key: "Acquisitions", value: "acquisition" },
+    { key: "Investments", value: "investment" },
+    { key: "Partnerships", value: "partnership" },
+  ];
   const other_news = [
     "Hiring Strategy",
     "Others- ESG, DEI, etc.",
@@ -26,7 +30,7 @@ const Recent_Strategy_Index = () => {
     setRecentStrategyReportID,
     recentStrategyReportID,
   } = useContext(AuthContext);
-
+  const [options, setOptions] = useState([]);
   const [text, setText] = useState("");
   const [selectedKeywords, setSelectedKeywords] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -39,7 +43,7 @@ const Recent_Strategy_Index = () => {
   const [logo, setLogo] = useState("");
   const [permalink, setPermalink] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
-
+  const [loading3, setLoading3] = useState("");
   const [intervalID, setIntervalID] = useState(null);
   const enabled = text && selectedKeywords.length >= 1;
   useEffect(() => {
@@ -58,6 +62,10 @@ const Recent_Strategy_Index = () => {
       clearInterval(intervalID);
       setLoading2(false);
       navigate("/recent_strategy_download");
+    } else if (statusMessage === "processingFailed") {
+      clearInterval(intervalID);
+      setLoading2(false);
+      navigate("/recent_strategy_failed");
     }
   }, [statusMessage, intervalID]);
 
@@ -85,15 +93,9 @@ const Recent_Strategy_Index = () => {
 
   const onChangeHandler = async (text) => {
     setText(text);
-    setCompanyName("");
-    setCompanyWebsite("");
-    setYearFounded("");
-    setHq("");
-    setOwnership("");
-    setLogo("");
-    setPermalink("");
+    setLoading(true);
     let resp = await fetch(
-      "https://wokelo-dev.eastus.cloudapp.azure.com/api/assets/get_company_details_from_name/",
+      "https://wokelo-dev.eastus.cloudapp.azure.com/api/assets/get_company_list/",
       {
         method: "POST",
         headers: {
@@ -101,18 +103,13 @@ const Recent_Strategy_Index = () => {
           Authorization: "Bearer " + String(authTokens.access),
         },
         body: JSON.stringify({
-          company_name: text,
+          name: text,
         }),
       }
     );
     const data = await resp.json();
-    setCompanyName(data.data.company_data.legal_name);
-    setCompanyWebsite(data.data.company_data.website);
-    setYearFounded(data.data.company_data.year_founded);
-    setHq(data.data.company_data.location_identifiers);
-    setOwnership(data.data.company_data.ipo_status);
-    setLogo(data.data.company_data.logo);
-    setPermalink(data.data.company_data.permalink);
+
+    setOptions(data.data);
     setLoading(false);
   };
 
@@ -135,7 +132,7 @@ const Recent_Strategy_Index = () => {
 
   const processRecentStrategy = async () => {
     console.log(" am callled");
-    console.log('permalink',permalink)
+    console.log("permalink", permalink);
     setRecentStrategyReportID("");
     let resp = await fetch(
       "https://wokelo-dev.eastus.cloudapp.azure.com/api/recent_strategy/process/",
@@ -146,7 +143,7 @@ const Recent_Strategy_Index = () => {
           Authorization: "Bearer " + String(authTokens.access),
         },
         body: JSON.stringify({
-          name: text,
+          name: companyName,
           permalink: permalink,
           selected_keywords: selectedKeywords,
         }),
@@ -156,12 +153,42 @@ const Recent_Strategy_Index = () => {
     setRecentStrategyReportID(data.report_id);
     console.log(recentStrategyReportID);
   };
+
+  const onCompanySelect = async (cname, clink) => {
+    setLoading2(true);
+    setOptions([]);
+    let companyData = await fetch(
+      "https://wokelo-dev.eastus.cloudapp.azure.com/api/assets/get_company_info/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+        body: JSON.stringify({
+          name: cname,
+          permalink: clink,
+          attributes: ["overview"],
+        }),
+      }
+    );
+    const res = await companyData.json();
+    console.log("link", res.data.permalink);
+    setCompanyName(res.data.crunchbase.legal_name);
+    setCompanyWebsite(res.data.crunchbase.website);
+    setPermalink(res.data.permalink);
+    setOwnership(res.data.crunchbase.ipo_status);
+    setYearFounded(res.data.crunchbase.year_founded);
+    setHq(res.data.crunchbase.location_identifiers);
+    setLogo(res.data.crunchbase.logo);
+    setLoading2(false);
+  };
   return (
     <div>
       <Modal
         backdrop="static"
         keyboard={false}
-        show={loading2}
+        show={loading3}
         size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
@@ -379,27 +406,69 @@ const Recent_Strategy_Index = () => {
                   value={text}
                 />
               </form>
+              {loading && (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <ThreeDots
+                    height="70"
+                    width="70"
+                    radius="9"
+                    color="#684EEA"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClassName=""
+                    visible={true}
+                  />
+                </div>
+              )}
+              {!loading &&
+                options &&
+                options.map((comp, i) => (
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <table className={styles.suggestions}>
+                      <tr>
+                        <td
+                          style={{ width: "18vw" }}
+                          onClick={() => {
+                            onCompanySelect(
+                              `${comp.name}`,
+                              `${comp.permalink}`
+                            );
+                          }}
+                        >
+                          <img
+                            style={{
+                              width: "40px",
+                              height: "auto",
+                              maxHeight: "50px",
+                              borderRadius: "5px",
+                            }}
+                            src={`https://res.cloudinary.com/crunchbase-production/image/upload/${comp.logo}`}
+                            alt=""
+                          />
+                          &nbsp; &nbsp;
+                          <strong className={styles.comp_name}>
+                            {comp.name}
+                          </strong>
+                          &nbsp; &nbsp;
+                        </td>
+                        <td>
+                          <span className={styles.comp_desc}>
+                            {comp.short_description.substring(0, 80)}
+                            {comp.short_description.length >= 50 && "..."}{" "}
+                          </span>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                ))}
             </div>
-            {loading && (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <ThreeDots
-                  height="70"
-                  width="70"
-                  radius="9"
-                  color="#684EEA"
-                  ariaLabel="three-dots-loading"
-                  wrapperStyle={{}}
-                  wrapperClassName=""
-                  visible={true}
-                />
-              </div>
-            )}
+
             {!loading && companyName && (
               <div className={styles.ca_input3}>
                 {loading && (
@@ -422,7 +491,7 @@ const Recent_Strategy_Index = () => {
                     />
                   </div>
                 )}
-                {!loading && companyName && (
+                {companyName && (
                   <div className={styles.company_box}>
                     <div className={styles.company_logo}>
                       <div className={styles.logo_container}>
@@ -541,7 +610,7 @@ const Recent_Strategy_Index = () => {
             disabled={!enabled}
             onClick={() => {
               processRecentStrategy();
-              setLoading2(true);
+              setLoading3(true);
             }}
           >
             Generate Report

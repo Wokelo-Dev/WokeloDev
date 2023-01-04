@@ -13,6 +13,7 @@ const Peer_Analysis_Download = () => {
   const [wordProcessed, setWordProcessed] = useState("");
   const [sourcesReffered, setSourcesReferred] = useState("");
   const [loading, setLoading] = React.useState(false);
+  const [loading2, setLoading2] = React.useState(false);
   const [error, setError] = React.useState(null);
   let { authTokens, peerReportID, sector } = useContext(AuthContext);
   console.log("on download page", peerReportID);
@@ -78,6 +79,43 @@ const Peer_Analysis_Download = () => {
       setError(error);
     } finally {
       setLoading(false);
+    }
+  };
+  const handleDownloadPpt = async () => {
+    setLoading2(true);
+    try {
+      const response = await fetch(
+        "https://wokelo-dev.eastus.cloudapp.azure.com/api/peer_analysis/download_ppt/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + String(authTokens.access),
+          },
+          body: JSON.stringify({
+            report_id: peerReportID,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      console.log(response.headers);
+      //  const [, filename] =
+      //    response.headers["Content-Disposition"].split("filename=");
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = `Peer_Analysis_${sector}_${dateGenerated}.ppt`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading2(false);
     }
   };
   return (
@@ -175,7 +213,25 @@ const Peer_Analysis_Download = () => {
                 />
               </button>
             )}
+            &nbsp;
+            &nbsp;
             {loading && (
+              <ColorRing
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                colors={["#684EEA", "#684EEA", "#684EEA", "#684EEA", "#684EEA"]}
+              />
+            )}
+            {!loading2 && (
+              <button onClick={handleDownloadPpt}>
+                <img style={{ height:"50px", width:"50px" }} src="https://i.ibb.co/CbtX6zH/powerpoint.png" alt="" />
+              </button>
+            )}
+            {loading2 && (
               <ColorRing
                 visible={true}
                 height="80"
