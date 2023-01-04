@@ -24,7 +24,7 @@ const Sidebar = () => {
               </Link>
             </li>
             <li>
-              <Link to="">
+              <Link to="/report_index">
                 <img
                   src="https://wokelo.ai/statichtml/images/book-open.svg"
                   alt=""

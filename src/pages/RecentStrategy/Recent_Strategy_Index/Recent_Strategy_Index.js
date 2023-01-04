@@ -469,9 +469,9 @@ const Recent_Strategy_Index = () => {
                 ))}
             </div>
 
-            {!loading && companyName && (
+            
               <div className={styles.ca_input3}>
-                {loading && (
+                {loading2 && (
                   <div
                     style={{
                       display: "flex",
@@ -535,7 +535,7 @@ const Recent_Strategy_Index = () => {
                   </div>
                 )}
               </div>
-            )}
+           
           </div>
 
           <div className={styles.right_container}>

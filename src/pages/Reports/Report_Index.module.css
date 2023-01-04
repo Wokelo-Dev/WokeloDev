@@ -1,4 +1,4 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Lato:wght@400;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,300;1,400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@500&family=Lato:wght@400;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;0,700;0,900;1,300;1,400&display=swap");
 body {
   font-family: "Raleway";
 }
@@ -72,23 +72,5 @@ body {
   text-decoration: none;
   border: none;
 }
-  table {
-        padding: 5px;
-        width: 100%;
-    }
 
-    td,
-    th {
-        text-align: center;
-        padding: 8px;
-    }
-
-
-    th {
-        font-weight: 600;
-        padding-bottom: 5vh;
-    }
-
-    tr:nth-child(even) {
-       background: rgba(217, 217, 217, 0.2);
-    } */
+ 

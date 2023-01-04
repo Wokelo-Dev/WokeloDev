@@ -1,12 +1,35 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import styles from "./Report_Index.module.css";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { HiOutlineLogout } from "react-icons/hi";
-import {BsFileEarmarkCheck} from "react-icons/bs"
+import { BsFileEarmarkCheck } from "react-icons/bs";
+import { ThreeDots } from "react-loader-spinner";
 const Report_Index = () => {
-  let { username } = useContext(AuthContext);
+  let { username, authTokens } = useContext(AuthContext);
+  const [reportData, setReportData] = useState(null);
+
+  useEffect(() => {
+    setReportData(null);
+    fetchReport();
+    console.log(reportData);
+  }, []);
+
+  const fetchReport = async () => {
+    let response = await fetch(
+      "https://wokelo-dev.eastus.cloudapp.azure.com/api/accounts/reports/",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + String(authTokens.access),
+        },
+      }
+    );
+    let data = await response.json();
+    if (data) setReportData({ data });
+  };
   return (
     <div>
       <Sidebar />
@@ -42,340 +65,198 @@ const Report_Index = () => {
           </div>
         </div>
         <div className={styles.right_content_area}>
-          <table>
-            <tr>
-              <th>REPORT TITLE</th>
-              <th>REPORT TYPE</th>
-              <th>STATUS</th>
-              <th>METRICS</th>
-              <th>DATE</th>
-              <th>DOWNLOAD</th>
-            </tr>
-            <tr>
-              <td>
-                <strong>'Secured Access Service Edge'</strong>
-              </td>
-              <td>Market Snapshot</td>
-              <td>
-                <span
+          {!reportData && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ThreeDots
+                height="70"
+                width="70"
+                radius="9"
+                color="#684EEA"
+                ariaLabel="three-dots-loading"
+                wrapperStyle={{}}
+                wrapperClassName=""
+                visible={true}
+              />
+            </div>
+          )}
+          {reportData && (
+            <table
+              style={{
+                padding: "5px",
+                width: "100%",
+              }}
+            >
+              <tr style={{ background: "rgba(217, 217, 217, 0.2)" }}>
+                <th
                   style={{
-                    color: "#5CB85C",
-                    fontWeight: "700",
-                    fontSize: "14px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "8px",
+                    fontWeight: "600",
+                    paddingBottom: "2vh",
+                    paddingTop: "2vh",
                   }}
                 >
-                  SUCCESSFUL
-                </span>
-              </td>
-              <td
-                style={{
-                  display: "flex",
-                  fontWeight: "500",
-                  fontSize: "14px",
-                  textAlign: "left",
-                  justifyContent: "center",
-                }}
-              >
-                <ul>
-                  <li>
-                    words synthesized :{" "}
-                    <span style={{ color: "#583BE8" }}>1234</span>{" "}
-                  </li>
-                  <li>
-                    words generated :{" "}
-                    <span style={{ color: "#583BE8" }}>4567</span>{" "}
-                  </li>
-                  <li>
-                    Time saved : <span style={{ color: "#583BE8" }}>2+HRS</span>
-                  </li>
-                </ul>
-              </td>
-              <td
-                style={{
-                  color: "rgba(0, 0, 0, 0.6)",
-                  fontFamily: "Inter",
-                  fontStyle: "normal",
-                  fontWeight: "500",
-                  fontSize: "16px",
-                }}
-              >
-                6/3/22 -12:45PM
-              </td>
-              <td style={{ fontSize: "25px", color: "#583BE8" }}>
-                <BsFileEarmarkCheck/>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <strong>'Secured Access Service Edge'</strong>
-              </td>
-              <td>Market Snapshot</td>
-              <td>
-                <span
+                  {" "}
+                  REPORT TITLE
+                </th>
+                <th
                   style={{
-                    color: "#5CB85C",
-                    fontWeight: "700",
-                    fontSize: "14px",
+                    textAlign: "center",
+                    padding: "8px",
+                    fontWeight: "600",
+                    paddingBottom: "2vh",
+                    paddingTop: "2vh",
                   }}
                 >
-                  SUCCESSFUL
-                </span>
-              </td>
-              <td
-                style={{
-                  display: "flex",
-                  fontWeight: "500",
-                  fontSize: "14px",
-                  textAlign: "left",
-                  justifyContent: "center",
-                }}
-              >
-                <ul>
-                  <li>
-                    words synthesized :{" "}
-                    <span style={{ color: "#583BE8" }}>1234</span>{" "}
-                  </li>
-                  <li>
-                    words generated :{" "}
-                    <span style={{ color: "#583BE8" }}>4567</span>{" "}
-                  </li>
-                  <li>
-                    Time saved : <span style={{ color: "#583BE8" }}>2+HRS</span>
-                  </li>
-                </ul>
-              </td>
-              <td
-                style={{
-                  color: "rgba(0, 0, 0, 0.6)",
-                  fontFamily: "Inter",
-                  fontStyle: "normal",
-                  fontWeight: "500",
-                  fontSize: "16px",
-                }}
-              >
-                6/3/22 -12:45PM
-              </td>
-                <td style={{ fontSize: "25px", color: "#583BE8" }}>
-                  <BsFileEarmarkCheck/>{" "}
-                </td>{" "}
-            </tr>
-            <tr>
-              <td>
-                <strong>'Secured Access Service Edge'</strong>
-              </td>
-              <td>Market Snapshot</td>
-              <td>
-                <span
+                  REPORT TYPE
+                </th>
+                <th
                   style={{
-                    color: "#5CB85C",
-                    fontWeight: "700",
-                    fontSize: "14px",
+                    textAlign: "center",
+                    padding: "8px",
+                    fontWeight: "600",
+                    paddingBottom: "2vh",
+                    paddingTop: "2vh",
                   }}
                 >
-                  SUCCESSFUL
-                </span>
-              </td>
-              <td
-                style={{
-                  display: "flex",
-                  fontWeight: "500",
-                  fontSize: "14px",
-                  textAlign: "left",
-                  justifyContent: "center",
-                }}
-              >
-                <ul>
-                  <li>
-                    words synthesized :{" "}
-                    <span style={{ color: "#583BE8" }}>1234</span>{" "}
-                  </li>
-                  <li>
-                    words generated :{" "}
-                    <span style={{ color: "#583BE8" }}>4567</span>{" "}
-                  </li>
-                  <li>
-                    Time saved : <span style={{ color: "#583BE8" }}>2+HRS</span>
-                  </li>
-                </ul>
-              </td>
-              <td
-                style={{
-                  color: "rgba(0, 0, 0, 0.6)",
-                  fontFamily: "Inter",
-                  fontStyle: "normal",
-                  fontWeight: "500",
-                  fontSize: "16px",
-                }}
-              >
-                6/3/22 -12:45PM
-              </td>
-              <td style={{ fontSize: "25px", color: "#583BE8" }}>
-                <BsFileEarmarkCheck/>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <strong>'Secured Access Service Edge'</strong>
-              </td>
-              <td>Market Snapshot</td>
-              <td>
-                <span
+                  STATUS
+                </th>
+                <th
                   style={{
-                    color: "#5CB85C",
-                    fontWeight: "700",
-                    fontSize: "14px",
+                    textAlign: "center",
+                    padding: "8px",
+                    fontWeight: "600",
+                    paddingBottom: "2vh",
+                    paddingTop: "2vh",
                   }}
                 >
-                  SUCCESSFUL
-                </span>
-              </td>
-              <td
-                style={{
-                  display: "flex",
-                  fontWeight: "500",
-                  fontSize: "14px",
-                  textAlign: "left",
-                  justifyContent: "center",
-                }}
-              >
-                <ul>
-                  <li>
-                    words synthesized :{" "}
-                    <span style={{ color: "#583BE8" }}>1234</span>{" "}
-                  </li>
-                  <li>
-                    words generated :{" "}
-                    <span style={{ color: "#583BE8" }}>4567</span>{" "}
-                  </li>
-                  <li>
-                    Time saved : <span style={{ color: "#583BE8" }}>2+HRS</span>
-                  </li>
-                </ul>
-              </td>
-              <td
-                style={{
-                  color: "rgba(0, 0, 0, 0.6)",
-                  fontFamily: "Inter",
-                  fontStyle: "normal",
-                  fontWeight: "500",
-                  fontSize: "16px",
-                }}
-              >
-                6/3/22 -12:45PM
-              </td>
-              <td style={{ fontSize: "25px", color: "#583BE8" }}>
-                <BsFileEarmarkCheck/>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <strong>'Secured Access Service Edge'</strong>
-              </td>
-              <td>Market Snapshot</td>
-              <td>
-                <span
+                  METRICS
+                </th>
+                <th
                   style={{
-                    color: "#5CB85C",
-                    fontWeight: "700",
-                    fontSize: "14px",
+                    textAlign: "center",
+                    padding: "8px",
+                    fontWeight: "600",
+                    paddingBottom: "2vh",
+                    paddingTop: "2vh",
                   }}
                 >
-                  SUCCESSFUL
-                </span>
-              </td>
-              <td
-                style={{
-                  display: "flex",
-                  fontWeight: "500",
-                  fontSize: "14px",
-                  textAlign: "left",
-                  justifyContent: "center",
-                }}
-              >
-                <ul>
-                  <li>
-                    words synthesized :{" "}
-                    <span style={{ color: "#583BE8" }}>1234</span>{" "}
-                  </li>
-                  <li>
-                    words generated :{" "}
-                    <span style={{ color: "#583BE8" }}>4567</span>{" "}
-                  </li>
-                  <li>
-                    Time saved : <span style={{ color: "#583BE8" }}>2+HRS</span>
-                  </li>
-                </ul>
-              </td>
-              <td
-                style={{
-                  color: "rgba(0, 0, 0, 0.6)",
-                  fontFamily: "Inter",
-                  fontStyle: "normal",
-                  fontWeight: "500",
-                  fontSize: "16px",
-                }}
-              >
-                6/3/22 -12:45PM
-              </td>
-              <td style={{ fontSize: "25px", color: "#583BE8" }}>
-                <BsFileEarmarkCheck/>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <strong>'Secured Access Service Edge'</strong>
-              </td>
-              <td>Market Snapshot</td>
-              <td>
-                <span
+                  DATE
+                </th>
+                <th
                   style={{
-                    color: "#5CB85C",
-                    fontWeight: "700",
-                    fontSize: "14px",
+                    textAlign: "center",
+                    padding: "8px",
+                    fontWeight: "600",
+                    paddingBottom: "2vh",
+                    paddingTop: "2vh",
                   }}
                 >
-                  SUCCESSFUL
-                </span>
-              </td>
-              <td
-                style={{
-                  display: "flex",
-                  fontWeight: "500",
-                  fontSize: "14px",
-                  textAlign: "left",
-                  justifyContent: "center",
-                }}
-              >
-                <ul>
-                  <li>
-                    words synthesized :{" "}
-                    <span style={{ color: "#583BE8" }}>1234</span>{" "}
-                  </li>
-                  <li>
-                    words generated :{" "}
-                    <span style={{ color: "#583BE8" }}>4567</span>{" "}
-                  </li>
-                  <li>
-                    Time saved : <span style={{ color: "#583BE8" }}>2+HRS</span>
-                  </li>
-                </ul>
-              </td>
-              <td
-                style={{
-                  color: "rgba(0, 0, 0, 0.6)",
-                  fontFamily: "Inter",
-                  fontStyle: "normal",
-                  fontWeight: "500",
-                  fontSize: "16px",
-                }}
-              >
-                6/3/22 -12:45PM
-              </td>
-              <td style={{ fontSize: "25px", color: "#583BE8" }}>
-                <BsFileEarmarkCheck/>
-              </td>
-            </tr>
-          </table>
+                  DOWNLOAD
+                </th>
+              </tr>
+
+              {reportData &&
+                Object.entries(reportData.data).map(([id, report]) => (
+                  <tr>
+                    <td style={{ textAlign: "center", padding: "8px" }}>
+                      <strong>'{report.title}'</strong>
+                    </td>
+                    <td style={{ textAlign: "center", padding: "8px" }}>
+                      {report.type}
+                    </td>
+                    <td style={{ textAlign: "center", padding: "8px" }}>
+                      {report.status !== "Failed" && (
+                        <span
+                          style={{
+                            color: "#5CB85C",
+                            fontWeight: "700",
+                            fontSize: "14px",
+                          }}
+                        >
+                          {report.status}
+                        </span>
+                      )}
+                      {report.status === "Failed" && (
+                        <span
+                          style={{
+                            color: "red",
+                            fontWeight: "700",
+                            fontSize: "14px",
+                          }}
+                        >
+                          {report.status}
+                        </span>
+                      )}
+                    </td>
+                    <td
+                      style={{
+                        display: "flex",
+                        fontWeight: "500",
+                        fontSize: "14px",
+
+                        justifyContent: "center",
+                        textAlign: "center",
+                        padding: "8px",
+                      }}
+                    >
+                      <ul>
+                        <li>
+                          words synthesized :{" "}
+                          <span style={{ color: "#583BE8" }}>
+                            {report.metrics.words_processed}
+                          </span>{" "}
+                        </li>
+                        <li>
+                          words generated :{" "}
+                          <span style={{ color: "#583BE8" }}>
+                            {report.metrics.words_generated}
+                          </span>{" "}
+                        </li>
+                        <li>
+                          Time saved :{" "}
+                          <span style={{ color: "#583BE8" }}>
+                            {report.metrics.time_saved}
+                          </span>
+                        </li>
+                      </ul>
+                    </td>
+                    <td
+                      style={{
+                        color: "rgba(0, 0, 0, 0.6)",
+                        fontFamily: "Inter",
+                        fontStyle: "normal",
+                        fontWeight: "500",
+                        fontSize: "16px",
+                        textAlign: "center",
+                        padding: "8px",
+                      }}
+                    >
+                      {report.date.substr(2, 8)}&nbsp; / &nbsp;
+                      {report.date.substr(11, 8)}
+                    </td>
+                    <td
+                      style={{
+                        fontSize: "25px",
+                        color: "#583BE8",
+                        textAlign: "center",
+                        padding: "8px",
+                      }}
+                    >
+                      <BsFileEarmarkCheck />
+                    </td>
+                  </tr>
+                ))}
+            </table>
+          )}
         </div>
       </div>
     </div>
