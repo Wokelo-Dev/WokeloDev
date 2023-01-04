@@ -20,6 +20,7 @@ import Peer_Analysis_Download from "./pages/CompetitorAnalysis/Peer_Analysis_Dow
 import Market_Snapshot_Download from "./pages/MarketSnapshot/Market_Snapshot_Download/Market_Snapshot_Download";
 import Recent_Strategy_Index from "./pages/RecentStrategy/Recent_Strategy_Index/Recent_Strategy_Index";
 import Recent_Strategy_Download from "./pages/RecentStrategy/Recent_Strategy_Download/Recent_Strategy_Download";
+import Report_Index from "./pages/Reports/Report_Index";
 
 
 
@@ -107,6 +108,14 @@ function App() {
           element={
             <PrivateRoute>
               <Recent_Strategy_Download/>
+             </PrivateRoute>
+          }
+        ></Route>
+        <Route
+          path="/report_index"
+          element={
+            <PrivateRoute>
+              <Report_Index/>
              </PrivateRoute>
           }
         ></Route>

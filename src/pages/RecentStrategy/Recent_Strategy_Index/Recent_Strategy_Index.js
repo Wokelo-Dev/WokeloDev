@@ -11,7 +11,7 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 const Recent_Strategy_Index = () => {
   const navigate = useNavigate();
-  const strategic_moves = ["Acquisitions", "Investments", "Partnerships"];
+  const strategic_moves = [{key:"Acquisitions", value:"acquisition"}, {key:"Investments", value:"investment"}, {key:"Partnerships", value:"partnership"}];
   const other_news = [
     "Hiring Strategy",
     "Others- ESG, DEI, etc.",
@@ -54,7 +54,7 @@ const Recent_Strategy_Index = () => {
 
   useEffect(() => {
     setStatusMessage("");
-    if (statusMessage === "processingCompletedInt") {
+    if (statusMessage === "processingCompleted") {
       clearInterval(intervalID);
       setLoading2(false);
       navigate("/recent_strategy_download");
@@ -134,6 +134,8 @@ const Recent_Strategy_Index = () => {
   };
 
   const processRecentStrategy = async () => {
+    console.log(" am callled");
+    console.log('permalink',permalink)
     setRecentStrategyReportID("");
     let resp = await fetch(
       "https://wokelo-dev.eastus.cloudapp.azure.com/api/recent_strategy/process/",
@@ -482,14 +484,14 @@ const Recent_Strategy_Index = () => {
                   {strategic_moves.map((str, i) => (
                     <div
                       className={` ${
-                        selectedKeywords.includes(`${str}`)
+                        selectedKeywords.includes(`${str.value}`)
                           ? styles.selected_attr
                           : ""
                       } ${styles.table_items}`}
                       style={{ cursor: "pointer" }}
-                      onClick={() => handleElementClick(`${str}`)}
+                      onClick={() => handleElementClick(`${str.value}`)}
                     >
-                      {str}
+                      {str.key}
                     </div>
                   ))}
                   {disabled_tags.map((str, i) => (

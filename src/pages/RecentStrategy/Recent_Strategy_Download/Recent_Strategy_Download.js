@@ -45,7 +45,7 @@ const Recent_Strategy_Download = () => {
           <div className="heading text-center pt-2 pb-0">
             <h1>Your draft report is being processed..</h1>
           </div>
-          <h3 className="mb-4">Market Snapshot - {marketSnapshotResearch} </h3>
+          <h3 className="mb-4">Recent Strategy - {} </h3>
           <div className="row align-items-center">
             <div className="col-xxl-5 col-xl-5 col-lg-5 col-md-5 col-sm-12 col-12">
               <img
